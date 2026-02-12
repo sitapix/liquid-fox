@@ -10,8 +10,6 @@
    Variables
    ============================================ */
 :root {
-  --liquid-overlay: rgba(0, 0, 0, 0.25);
-  --liquid-overlay-heavy: rgba(0, 0, 0, 0.5);
   --liquid-radius: 12px;
   --liquid-radius-small: 8px;
   --liquid-padding: 8px;
@@ -76,7 +74,6 @@
   #navigator-toolbox,
   #browser,
   #sidebar-main,
-  #appcontent,
   #tabbrowser-tabbox,
   #tabbrowser-tabpanels,
   #browser-panel,
@@ -105,21 +102,31 @@
   z-index: 2147483647 !important;
 }
 
-/* --- Dark mode: subtler outline --- */
+/* --- Dark mode: subtler outline + brighter backdrop --- */
 @media (prefers-color-scheme: dark) {
   .browserContainer::after,
   .sidebar-browser-stack::after {
     background: var(--liquid-border-gradient-dark) border-box !important;
   }
-}
 
-/* --- Dark mode: brighten the window backdrop --- */
-@media (prefers-color-scheme: dark) {
   :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen])::before {
     background:
       linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
       var(--liquid-window-tint) !important;
   }
+}
+
+/* ============================================
+   Sidebar button styling (shared across all layouts)
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) sidebar-main {
+  --toolbarbutton-active-background: transparent !important;
+  --button-background-color: transparent !important;
+  --button-background-color-hover: rgba(0, 0, 0, 0.12) !important;
+  --button-background-color-active: rgba(0, 0, 0, 0.18) !important;
+  --button-background-color-ghost-hover: rgba(0, 0, 0, 0.12) !important;
+  --button-background-color-ghost-active: rgba(0, 0, 0, 0.18) !important;
+  --button-border-radius: var(--liquid-radius-small) !important;
 }
 
 /* ============================================
@@ -248,17 +255,6 @@
     margin-bottom: 3px !important;
   }
 
-  /* --- Sidebar icon highlights + rounding --- */
-  sidebar-main {
-    --toolbarbutton-active-background: transparent !important;
-    --button-background-color: transparent !important;
-    --button-background-color-hover: rgba(0, 0, 0, 0.12) !important;
-    --button-background-color-active: rgba(0, 0, 0, 0.18) !important;
-    --button-background-color-ghost-hover: rgba(0, 0, 0, 0.12) !important;
-    --button-background-color-ghost-active: rgba(0, 0, 0, 0.18) !important;
-    --button-border-radius: var(--liquid-radius-small) !important;
-  }
-
   /* --- Dark mode: stronger group tint --- */
   @media (prefers-color-scheme: dark) {
     tab-group {
@@ -319,15 +315,8 @@
     padding-bottom: 2px !important;
   }
 
-  /* --- Sidebar icon strip: hover states, centering, background --- */
+  /* --- Sidebar icon strip: layout + background --- */
   sidebar-main {
-    --toolbarbutton-active-background: transparent !important;
-    --button-background-color: transparent !important;
-    --button-background-color-hover: rgba(0, 0, 0, 0.12) !important;
-    --button-background-color-active: rgba(0, 0, 0, 0.18) !important;
-    --button-background-color-ghost-hover: rgba(0, 0, 0, 0.12) !important;
-    --button-background-color-ghost-active: rgba(0, 0, 0, 0.18) !important;
-    --button-border-radius: var(--liquid-radius-small) !important;
     margin-inline-start: 8px !important;
     margin-bottom: calc(var(--liquid-padding) - 2px) !important;
     border-radius: 0 0 0 var(--liquid-radius) !important;
@@ -351,13 +340,20 @@
     margin: 0 !important;
   }
 
-  /* Kill any default gap/margin between sidebar and content area */
-  #browser-panel {
-    gap: 0 !important;
+  /* Style splitter handles to blend with sidebar */
+  #sidebar-splitter,
+  #sidebar-launcher-splitter {
+    border: none !important;
+    width: 4px !important;
+    min-width: 4px !important;
+    background: light-dark(rgba(255, 255, 255, 0.35), rgba(0, 0, 0, 0.12)) !important;
+    margin-bottom: calc(var(--liquid-padding) - 2px) !important;
   }
 
-  #appcontent {
-    margin: 0 !important;
+  /* Restore blue resize highlight on hover/drag */
+  #sidebar-splitter:hover,
+  #sidebar-launcher-splitter:hover {
+    background: var(--focus-outline-color) !important;
   }
 
   /* --- Address bar: rounded top corners + side margin --- */
@@ -442,9 +438,9 @@
 }
 
 /* ============================================
-   Horizontal tabs + sidebar panel open: flush web frame
+   Horizontal tabs + sidebar visible: flush web frame
    ============================================ */
-:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)):has(#sidebar-box:not([hidden])) .browserContainer {
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)):has(#sidebar-main:not([hidden])) .browserContainer {
   margin-left: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
