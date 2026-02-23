@@ -162,11 +162,6 @@
     padding-bottom: 2px !important;
   }
 
-  /* --- Pinned tabs: wider minimum for better click targets --- */
-  #pinned-tabs-container[orient="vertical"] {
-    --tab-pinned-min-width-expanded: 85px !important;
-  }
-
   /* --- Tab rounding + selected tab styling --- */
   #tabbrowser-tabs {
     --tab-border-radius: var(--liquid-radius-small) !important;
@@ -270,6 +265,15 @@
 }
 
 /* ============================================
+   Expanded sidebar only: wider pinned tabs
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):has(sidebar-main[expanded] #tabbrowser-tabs) {
+  #pinned-tabs-container[orient="vertical"] {
+    --tab-pinned-min-width-expanded: 85px !important;
+  }
+}
+
+/* ============================================
    Collapsed sidebar: vertical tabs overrides
    ============================================ */
 :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):has(sidebar-main:not([expanded]) #tabbrowser-tabs) {
@@ -281,6 +285,8 @@
     outline: none !important;
     border-inline: none !important;
     border-block: 1px solid color-mix(in srgb, var(--tab-group-color) 15%, transparent) !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
   }
 
   /* Group label: center the single-letter text, nudge down slightly */
