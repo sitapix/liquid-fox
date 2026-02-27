@@ -54,6 +54,15 @@
 }
 
 /* ============================================
+   Squircle corners (superellipse)
+   ============================================ */
+@supports (corner-shape: squircle) {
+  * {
+    corner-shape: squircle !important;
+  }
+}
+
+/* ============================================
    Browser Chrome - Make UI panels transparent
    ============================================ */
 :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) {
