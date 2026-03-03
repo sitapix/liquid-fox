@@ -90,6 +90,12 @@
     background: transparent !important;
   }
 
+  /* --- Expand-on-hover sidebar: restore overlay background --- */
+  &[sidebar-expand-on-hover] #sidebar-main[sidebar-launcher-expanded] {
+    background: light-dark(rgba(232, 232, 232, 0.97), rgba(32, 32, 32, 0.97)) !important;
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.08) !important;
+  }
+
 }
 
 /* ============================================
