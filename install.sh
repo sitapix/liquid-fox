@@ -42,10 +42,26 @@ echo "Installing to: $TARGET"
 mkdir -p "$TARGET/chrome"
 cp -v chrome/userChrome.css "$TARGET/chrome/userChrome.css"
 
+# Set required about:config preferences via user.js
+# This only adds/updates our two prefs — all other user.js content is preserved.
+USER_JS="$TARGET/user.js"
+
+add_pref() {
+  local name="$1"
+  local line="$2"
+  if [ -f "$USER_JS" ] && grep -qF "\"$name\"" "$USER_JS"; then
+    # Remove the existing line (exact string match, not regex)
+    grep -vF "\"$name\"" "$USER_JS" > "$USER_JS.tmp" && mv "$USER_JS.tmp" "$USER_JS"
+  fi
+  echo "$line" >> "$USER_JS"
+}
+
+add_pref "toolkit.legacyUserProfileCustomizations.stylesheets" \
+  'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
+
+add_pref "widget.macos.titlebar-blend-mode.behind-window" \
+  'user_pref("widget.macos.titlebar-blend-mode.behind-window", true);'
+
 echo
-echo "Done! Now open about:config in Firefox and set these to true:"
-echo
-echo "  toolkit.legacyUserProfileCustomizations.stylesheets"
-echo "  widget.macos.titlebar-blend-mode.behind-window"
-echo
-echo "Then restart Firefox."
+echo "Done! Preferences have been set automatically."
+echo "Restart Firefox to activate Liquid Fox."

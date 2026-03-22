@@ -7,12 +7,43 @@
  */
 
 /* ============================================
-   Variables
+   User Configuration
+   Change these to customize the theme to your liking.
    ============================================ */
 :root {
-  --liquid-radius: 12px;
+  /* Sidebar border color (set to "transparent" to hide the theme border) */
+  --liquid-sidebar-border: transparent;
+
+  /* How far toolbars push right when sidebar is visible (0px to disable) */
+  --liquid-toolbar-sidebar-offset: 48.5px;
+
+  /* Max width the sidebar panel can grow to */
+  --liquid-sidebar-max-width: 40vw;
+
+  /* Sidebar push animation speed — must stay 0.2s to match Firefox's internal
+     FLIP animation (browser-sidebar.js _animateSidebarMain, pref sidebar.animation.duration-ms).
+     Easing is ease-in-out everywhere this variable is used — also matched to Firefox. */
+  --liquid-transition-speed: 0.2s;
+
+  /* Glass intensity: saturation boost for vibrancy (1.0 = off, 1.4 = vivid) */
+  --liquid-saturation: 1.3;
+
+  /* Dark mode white wash over vibrancy */
+  --liquid-dark-overlay-alpha: 0.03;
+
+  /* Dark mode expanded sidebar fill */
+  --liquid-dark-sidebar-alpha: 0.82;
+}
+
+/* ============================================
+   Internal Variables
+   ============================================ */
+:root {
+  --liquid-radius: 17px;
   --liquid-radius-small: 8px;
   --liquid-padding: 8px;
+  --liquid-bottom-gap: 4px;
+  --liquid-bottom-inset: 1px;
   --liquid-shadow:
     0 0.5px 0 0 rgba(255, 255, 255, 0.35),
     0 1px 3px rgba(0, 0, 0, 0.04),
@@ -21,6 +52,10 @@
     0 0.5px 0 0 rgba(255, 255, 255, 0.35),
     0 1px 3px rgba(0, 0, 0, 0.04),
     0 3px 11px rgba(0, 0, 0, 0.06);
+  --liquid-shadow-float:
+    0 0.5px 0 0 rgba(255, 255, 255, 0.35),
+    0 2px 8px rgba(0, 0, 0, 0.08),
+    0 8px 28px rgba(0, 0, 0, 0.12);
   --liquid-window-tint:
     linear-gradient(
       176deg,
@@ -29,21 +64,89 @@
       rgba(50, 105, 145, 0.13) 60%,
       rgba(185, 150, 85, 0.19) 100%
     );
-  --liquid-border-gradient:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.3) 50%,
-      rgba(255, 255, 255, 0) 100%
+  /* Specular rim — conic gradient simulates directional light hitting glass edges.
+     Light source at top-left (~315°), hot spot concentrated there,
+     faint ambient bounce at bottom, darkest at bottom-right. */
+  --liquid-specular:
+    conic-gradient(
+      from 180deg at 50% 50%,
+      rgba(255, 255, 255, 0.06) 0deg,
+      rgba(255, 255, 255, 0) 30deg,
+      rgba(255, 255, 255, 0.12) 80deg,
+      rgba(255, 255, 255, 0.6) 115deg,
+      rgba(255, 255, 255, 0.9) 145deg,
+      rgba(255, 255, 255, 0.55) 180deg,
+      rgba(255, 255, 255, 0.12) 220deg,
+      rgba(255, 255, 255, 0) 270deg,
+      rgba(255, 255, 255, 0) 330deg,
+      rgba(255, 255, 255, 0.06) 360deg
     );
-  --liquid-border-gradient-dark:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.3) 0%,
-      rgba(255, 255, 255, 0.1) 50%,
-      rgba(255, 255, 255, 0) 100%
+  --liquid-specular-dark:
+    conic-gradient(
+      from 180deg at 50% 50%,
+      rgba(255, 255, 255, 0.03) 0deg,
+      rgba(255, 255, 255, 0) 30deg,
+      rgba(255, 255, 255, 0.05) 80deg,
+      rgba(255, 255, 255, 0.22) 115deg,
+      rgba(255, 255, 255, 0.32) 145deg,
+      rgba(255, 255, 255, 0.18) 180deg,
+      rgba(255, 255, 255, 0.05) 220deg,
+      rgba(255, 255, 255, 0) 270deg,
+      rgba(255, 255, 255, 0) 330deg,
+      rgba(255, 255, 255, 0.03) 360deg
     );
 }
+
+/* ============================================
+   Pill-shaped URL bar (scoped to urlbar only)
+   ============================================ */
+#urlbar-container {
+  --toolbarbutton-border-radius: 50px !important;
+  --urlbar-inner-border-radius: 48px !important;
+  --urlbar-icon-border-radius: 48px !important;
+}
+
+/* --- Search mode switcher: bare icon, no background circle --- */
+#urlbar-searchmode-switcher {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin-inline-start: 4px !important;
+  margin-block: auto !important;
+  min-width: unset !important;
+}
+
+#urlbar-searchmode-switcher .searchmode-switcher-dropmarker {
+  display: none !important;
+}
+
+/* --- Urlbar dropdown: dark bg, shadow, no separator --- */
+#urlbar[open] {
+  --toolbarbutton-border-radius: var(--liquid-radius) !important;
+  --urlbar-separator-color: transparent !important;
+  outline: none !important;
+}
+
+#urlbar[open] > .urlbar-background {
+  box-shadow: var(--liquid-shadow-float) !important;
+  background-color: light-dark(rgb(240, 240, 240), rgb(18, 18, 20)) !important;
+  border: none !important;
+}
+
+#urlbar[open] .urlbar-input-container,
+#urlbar[open] .urlbarView,
+#urlbar[open] .urlbarView-body-outer,
+#urlbar[open] .urlbarView-body-inner,
+#urlbar[open] .urlbarView-results {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#urlbar[open] .urlbarView-body-outer::before {
+  display: none !important;
+}
+
 
 /* ============================================
    Window Transparency
@@ -51,6 +154,12 @@
    ============================================ */
 :root {
   appearance: -moz-sidebar !important;
+}
+
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]),
+#main-window {
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 /* ============================================
@@ -74,8 +183,11 @@
     position: fixed !important;
     inset: 0 !important;
     background: var(--liquid-window-tint) !important;
+    backdrop-filter: saturate(var(--liquid-saturation)) !important;
+    -webkit-backdrop-filter: saturate(var(--liquid-saturation)) !important;
     pointer-events: none !important;
     z-index: -1 !important;
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease !important;
   }
 
   /* --- Clear all backgrounds so vibrancy is uniform --- */
@@ -92,7 +204,10 @@
 
   /* --- Expand-on-hover sidebar: restore overlay background --- */
   &[sidebar-expand-on-hover] #sidebar-main[sidebar-launcher-expanded] {
-    background: light-dark(rgba(232, 232, 232, 0.97), rgba(32, 32, 32, 0.97)) !important;
+    background: light-dark(
+      rgba(232, 232, 232, 0.97),
+      rgba(24, 24, 28, var(--liquid-dark-sidebar-alpha))
+    ) !important;
     box-shadow: 4px 0 16px rgba(0, 0, 0, 0.08) !important;
   }
 
@@ -108,7 +223,7 @@
   inset: 0 !important;
   border-radius: inherit !important;
   border: 1px solid transparent !important;
-  background: var(--liquid-border-gradient) border-box !important;
+  background: var(--liquid-specular) border-box !important;
   mask:
     linear-gradient(#fff 0 0) padding-box,
     linear-gradient(#fff 0 0) !important;
@@ -121,13 +236,44 @@
 @media (prefers-color-scheme: dark) {
   .browserContainer::after,
   .sidebar-browser-stack::after {
-    background: var(--liquid-border-gradient-dark) border-box !important;
+    background: var(--liquid-specular-dark) border-box !important;
   }
 
   :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen])::before {
     background:
-      linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.08)),
+      linear-gradient(
+        rgba(255, 255, 255, var(--liquid-dark-overlay-alpha)),
+        rgba(255, 255, 255, var(--liquid-dark-overlay-alpha))
+      ),
+      linear-gradient(rgba(8, 12, 18, 0.12), rgba(8, 12, 18, 0.12)),
       var(--liquid-window-tint) !important;
+  }
+
+}
+
+/* ============================================
+   Window inactive: dim the glass when unfocused
+   ============================================ */
+:root:-moz-window-inactive:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen])::before {
+  opacity: 0.5 !important;
+  backdrop-filter: saturate(1.0) !important;
+  -webkit-backdrop-filter: saturate(1.0) !important;
+}
+
+/* ============================================
+   Focused URL bar: glass glow on input
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) #urlbar[focused] .urlbar-background {
+  box-shadow:
+    0 0 0 1px oklch(54.6% 0.245 262.881 / 0.3),
+    0 0 16px 0px oklch(54.6% 0.245 262.881 / 0.4) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) #urlbar[focused] .urlbar-background {
+    box-shadow:
+      0 0 0 1px oklch(54.6% 0.245 262.881 / 0.4),
+      0 0 20px 0px oklch(54.6% 0.245 262.881 / 0.5) !important;
   }
 }
 
@@ -150,9 +296,9 @@
    ============================================ */
 :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):has(sidebar-main #tabbrowser-tabs) {
 
-  /* --- 2px bottom padding on whole window --- */
+  /* --- Bottom breathing room on whole window --- */
   #browser {
-    padding-bottom: 2px !important;
+    padding-bottom: var(--liquid-bottom-inset) !important;
   }
 
   /* --- Web content frame --- */
@@ -161,7 +307,7 @@
     border-radius: var(--liquid-radius) !important;
     overflow: hidden !important;
     box-shadow: var(--liquid-shadow) !important;
-    margin: 0 var(--liquid-padding) calc(var(--liquid-padding) - 2px) 0 !important;
+    margin: 0 var(--liquid-padding) calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) 0 !important;
   }
 
   /* --- Sidebar panels (AI, bookmarks, history, etc.) --- */
@@ -174,7 +320,7 @@
 
   /* --- Toolbar spacing: small gap below address bar --- */
   #navigator-toolbox {
-    padding-bottom: 2px !important;
+    padding-bottom: var(--liquid-bottom-inset) !important;
   }
 
   /* --- Tab rounding + selected tab styling --- */
@@ -184,13 +330,7 @@
   }
 
   .tab-background:is([selected], [multiselected]) {
-    box-shadow: var(--liquid-shadow-small) !important;
-  }
-
-  /* --- Address bar rounding --- */
-  .urlbar-background,
-  #searchbar {
-    border-radius: var(--liquid-radius-small) !important;
+    box-shadow: var(--liquid-shadow-small), inset 0 0.5px 0 0 rgba(255, 255, 255, 0.3) !important;
   }
 
   /* --- Tab groups: Dia-inspired style --- */
@@ -317,10 +457,81 @@
    ============================================ */
 :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)) {
 
-  /* --- Kill chrome-content separator line on toolbox --- */
+  /* --- Kill chrome-content separator lines + tighten vertical spacing --- */
   #navigator-toolbox {
     border: none !important;
+    padding-bottom: 0 !important;
+    --tabs-navbar-shadow-size: 0px !important;
   }
+
+  /* --- Compact tab bar: pill-shaped transparent tabs --- */
+  #TabsToolbar {
+    --tab-min-height: 30px !important;
+  }
+
+
+  .tabbrowser-tab {
+    --tab-border-radius: 50px !important;
+  }
+
+  /* Fix tab bar shift when dragging tabs */
+  #navigator-toolbox[movingtab] > #TabsToolbar,
+  #navigator-toolbox[movingtab] > #titlebar > #TabsToolbar {
+    padding-bottom: 0 !important;
+  }
+
+  #navigator-toolbox[movingtab] #tabbrowser-tabs {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  #TabsToolbar[movingtab] + #nav-bar {
+    margin-top: 0 !important;
+  }
+
+  .tab-background {
+    border-radius: 50px !important;
+    background: transparent !important;
+  }
+
+  /* Extra padding so close button doesn't hug the pill edge */
+  .tab-content {
+    padding-inline: 10px !important;
+  }
+
+  /* Selected tab: frosted glass pill with specular border */
+  .tab-background:is([selected], [multiselected]) {
+    background: light-dark(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08)) !important;
+    border: 1px solid transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-clip: padding-box !important;
+    position: relative !important;
+    --tab-selected-outline-color: transparent !important;
+  }
+
+  .tab-background:is([selected], [multiselected])::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: inherit !important;
+    border: 1px solid transparent !important;
+    background: var(--liquid-specular-dark) border-box !important;
+    mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) !important;
+    mask-composite: subtract !important;
+    pointer-events: none !important;
+  }
+
+  /* Hovered tab: subtle fill */
+  .tabbrowser-tab:not([selected]):hover .tab-background {
+    background: light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
+  }
+
+  --tabs-navbar-separator-color: transparent !important;
+  --chrome-content-separator-color: transparent !important;
+  --tabstrip-inner-border: transparent !important;
 
   /* --- Tighten gap between traffic lights and first tab --- */
   .titlebar-spacer[type="pre-tabs"] {
@@ -342,28 +553,33 @@
     margin-inline-start: 6px !important;
   }
 
-  /* --- Bookmarks bar: match nav-bar side margins --- */
+  /* --- Bookmarks bar: compact + side margins + smooth sidebar push --- */
   #PersonalToolbar {
-    margin-inline: var(--liquid-padding) !important;
+    margin-inline: calc(var(--liquid-padding) - 0.25px) !important;
+    padding-block: 1px !important;
+    transition: margin-inline-start var(--liquid-transition-speed) ease-in-out !important;
   }
 
   /* --- Window bottom padding (same trick as vertical tabs) --- */
   #browser {
-    padding-bottom: 2px !important;
+    padding-bottom: var(--liquid-bottom-inset) !important;
   }
 
   /* --- Sidebar icon strip: layout + background --- */
   sidebar-main {
-    margin-inline-start: 8px !important;
-    margin-bottom: calc(var(--liquid-padding) - 2px) !important;
-    border-radius: 0 0 0 var(--liquid-radius) !important;
-    background: light-dark(rgba(255, 255, 255, 0.35), rgba(0, 0, 0, 0.12)) !important;
+    margin-inline-start: 0 !important;
+    margin-bottom: calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    --sidebar-border-color: var(--liquid-sidebar-border) !important;
   }
 
   /* --- Sidebar panels (bookmarks, history, etc.): flush, no frills --- */
   #sidebar-box {
-    margin: 0 0 calc(var(--liquid-padding) - 2px) 0 !important;
+    margin: 0 0 calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) 0 !important;
     padding: 0 !important;
+    max-width: var(--liquid-sidebar-max-width) !important;
+    --sidebar-border-color: var(--liquid-sidebar-border) !important;
   }
 
   #sidebar-box,
@@ -383,8 +599,8 @@
     border: none !important;
     width: 4px !important;
     min-width: 4px !important;
-    background: light-dark(rgba(255, 255, 255, 0.35), rgba(0, 0, 0, 0.12)) !important;
-    margin-bottom: calc(var(--liquid-padding) - 2px) !important;
+    background: transparent !important;
+    margin-bottom: calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) !important;
   }
 
   /* Restore blue resize highlight on hover/drag */
@@ -395,19 +611,22 @@
 
   /* --- Address bar: rounded top corners + side margin --- */
   #nav-bar {
-    margin: 0 var(--liquid-padding) !important;
+    margin: 0 calc(var(--liquid-padding) - 0.25px) !important;
+    padding-block: 2px !important;
     border-radius: var(--liquid-radius) var(--liquid-radius) 0 0 !important;
     overflow: hidden !important;
+    transition: margin-inline-start var(--liquid-transition-speed) ease-in-out !important;
+    --tabs-navbar-shadow-size: 0px !important;
   }
 
   /* --- Content area: rounded bottom corners + side/bottom margin + shadow --- */
   .browserContainer {
     position: relative !important;
-    margin: 0 var(--liquid-padding) calc(var(--liquid-padding) - 2px) var(--liquid-padding) !important;
+    margin: 0 var(--liquid-padding) calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) var(--liquid-padding) !important;
     border-radius: 0 0 var(--liquid-radius) var(--liquid-radius) !important;
     overflow: hidden !important;
     box-shadow: var(--liquid-shadow) !important;
-    transition: margin-left 0.25s ease, border-radius 0.25s ease !important;
+    transition: margin-left var(--liquid-transition-speed) ease-in-out, border-radius var(--liquid-transition-speed) ease-in-out !important;
   }
 
   /* Hide the shared outline (top edge creates a visible line across the padding) */
@@ -479,7 +698,15 @@
    ============================================ */
 :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)):has(#sidebar-main:not([hidden])) .browserContainer {
   margin-left: 0 !important;
-  border-bottom-left-radius: 0 !important;
+}
+
+/* --- Toolbars: push right to align with sidebar edge --- */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)):has(#sidebar-main:not([hidden])) #nav-bar {
+  margin-inline-start: var(--liquid-toolbar-sidebar-offset) !important;
+}
+
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)):has(#sidebar-main:not([hidden])) #PersonalToolbar {
+  margin-inline-start: var(--liquid-toolbar-sidebar-offset) !important;
 }
 
 /* ============================================
@@ -500,10 +727,7 @@
 
   /* --- Active pane: elevated shadow for emphasis --- */
   .deck-selected > .browserContainer {
-    box-shadow:
-      0 0.5px 0 0 rgba(255, 255, 255, 0.35),
-      0 2px 8px rgba(0, 0, 0, 0.08),
-      0 8px 28px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: var(--liquid-shadow-float) !important;
   }
 }
 
@@ -523,4 +747,97 @@
 /* --- Split view tab entry: subtle divider between tab names --- */
 tab-split-view-wrapper:not([hasactivetab]) .tabbrowser-tab:last-child {
   border-inline-start: 1px solid light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.12)) !important;
+}
+
+/* ============================================
+   Find bar: blend with glass chrome
+   ============================================ */
+findbar {
+  border: none !important;
+}
+
+/* ============================================
+   Scrollbar: thin + transparent in sidebar
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) sidebar-main,
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) #sidebar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(128, 128, 128, 0.3) transparent !important;
+}
+
+/* ============================================
+   Tab press: satisfying scale on click
+   ============================================ */
+.tabbrowser-tab:active:not(:has(.tab-close-button:active)) {
+  transform: scale(0.98) !important;
+  transition: transform 0.1s ease !important;
+}
+
+.tabbrowser-tab {
+  transition: transform 0.1s ease !important;
+}
+
+/* ============================================
+   URL bar focus ring: shrink-in glow animation
+   ============================================ */
+#urlbar[focused]:not([open]) {
+  outline-style: solid !important;
+  outline-color: oklch(54.6% 0.245 262.881) !important;
+  outline-width: 3px !important;
+  outline-offset: -1px !important;
+  border-radius: 50px !important;
+  animation: urlbar-focus-ring 0.3s cubic-bezier(.8, 0, 0, .8) !important;
+}
+
+@keyframes urlbar-focus-ring {
+  from {
+    outline-width: 14px;
+    outline-color: transparent;
+  }
+  to {
+    outline-width: 3px;
+    outline-color: oklch(54.6% 0.245 262.881);
+  }
+}
+
+/* ============================================
+   Window inactive: dim tabs + urlbar content
+   ============================================ */
+:root:-moz-window-inactive:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) {
+  & .tabbrowser-tab:not([selected]) {
+    opacity: 0.5 !important;
+  }
+
+  & #urlbar:not([focused]) .urlbar-input-container {
+    opacity: 0.78 !important;
+  }
+}
+
+/* ============================================
+   Panel / popup open animation
+   ============================================ */
+menupopup,
+panel[type="arrow"] {
+  animation: panel-grow 0.2s ease !important;
+}
+
+@keyframes panel-grow {
+  from { transform: scale(0.94); opacity: 0.5; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================
+   Reduced motion: collapse all transitions
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --liquid-transition-speed: 0.01ms !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }
