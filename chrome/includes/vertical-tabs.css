@@ -1,0 +1,171 @@
+/* ============================================
+   Content area: rounded + padded (vertical tabs only)
+   Uses :has() to detect sidebar with tabs in the DOM
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):has(sidebar-main #tabbrowser-tabs) {
+
+  /* --- Bottom breathing room on whole window --- */
+  #browser {
+    padding-bottom: var(--liquid-bottom-inset) !important;
+  }
+
+  /* --- Web content frame --- */
+  .browserContainer {
+    position: relative !important;
+    border-radius: var(--liquid-radius) !important;
+    overflow: hidden !important;
+    box-shadow: var(--liquid-shadow) !important;
+    margin: 0 var(--liquid-padding) calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) 0 !important;
+  }
+
+  /* --- Sidebar panels (AI, bookmarks, history, etc.) --- */
+  .sidebar-browser-stack {
+    position: relative !important;
+    border-radius: var(--liquid-radius) !important;
+    overflow: hidden !important;
+    box-shadow: var(--liquid-shadow) !important;
+  }
+
+  /* --- Toolbar spacing: breathing room above and below address bar --- */
+  #navigator-toolbox {
+    padding-top: 4px !important;
+    padding-bottom: var(--liquid-bottom-inset) !important;
+  }
+
+  /* --- Center URL bar over content area without moving window controls --- */
+  #urlbar-container {
+    margin-inline-start: calc(var(--liquid-toolbar-sidebar-offset) / 2) !important;
+  }
+
+  /* --- Tab rounding + selected tab styling --- */
+  #tabbrowser-tabs {
+    --tab-border-radius: var(--liquid-radius-small) !important;
+    font-size: calc(1em + 1px) !important;
+  }
+
+  .tab-background:is([selected], [multiselected]) {
+    background: light-dark(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08)) !important;
+    outline: none !important;
+    box-shadow: var(--liquid-shadow-small), inset 0 0.5px 0 0 rgba(255, 255, 255, 0.3) !important;
+    --tab-selected-outline-color: transparent !important;
+  }
+
+  /* --- Tab groups: Dia-inspired style --- */
+  /* Firefox 131+: tab-group custom element (enabled by default Firefox 133+) */
+
+  /* Group container: override display:contents so it renders as a box */
+  tab-group {
+    display: flex !important;
+    flex-direction: column !important;
+    background-color: color-mix(in srgb, var(--tab-group-color) 10%, transparent) !important;
+    border-radius: var(--liquid-radius-small) !important;
+    outline: 1px solid color-mix(in srgb, var(--tab-group-color) 15%, transparent) !important;
+    outline-offset: -1px !important;
+    padding: 0 !important;
+    margin: 2px 8px !important;
+    --tab-group-line-color: transparent !important;
+    --tab-group-line-thickness: 0px !important;
+  }
+
+  /* Hide the group line entirely */
+  .tab-group-line {
+    display: none !important;
+  }
+
+  /* Label container: stretch full width, no extra spacing */
+  .tab-group-label-container {
+    align-self: stretch !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Label: plain text, no own shape -- container handles visuals */
+  .tab-group-label {
+    background-color: transparent !important;
+    color: light-dark(
+      var(--tab-group-color),
+      var(--tab-group-color-invert)
+    ) !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    min-height: var(--tab-min-height) !important;
+    line-height: var(--tab-min-height) !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-weight: normal !important;
+    text-align: start !important;
+    padding-inline: 8px !important;
+  }
+
+  /* Overflow count (+1, +2): explicit color since --tab-group-line-color is transparent */
+  .tab-group-overflow-count {
+    color: light-dark(
+      var(--tab-group-color),
+      var(--tab-group-color-invert)
+    ) !important;
+  }
+
+  /* Subtle hover highlight on group label */
+  .tab-group-label-hover-highlight {
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: var(--liquid-radius-small) !important;
+    background: transparent !important;
+  }
+
+  tab-group[collapsed]:not([movingtabgroup]) .tab-group-label-hover-highlight:hover {
+    background: rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* Tabs within groups: tight spacing, bottom breathing room */
+  tab-group > .tabbrowser-tab {
+    margin: 1px 0 !important;
+  }
+
+  tab-group > .tabbrowser-tab:last-of-type {
+    margin-bottom: 3px !important;
+  }
+
+  /* --- Dark mode: stronger group tint --- */
+  @media (prefers-color-scheme: dark) {
+    tab-group {
+      background-color: color-mix(in srgb, var(--tab-group-color) 20%, transparent) !important;
+      outline: 1px solid color-mix(in srgb, var(--tab-group-color) 25%, transparent) !important;
+    }
+  }
+}
+
+/* ============================================
+   Expanded sidebar only: wider pinned tabs
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):has(sidebar-main[expanded] #tabbrowser-tabs) {
+  #pinned-tabs-container[orient="vertical"] {
+    --tab-pinned-min-width-expanded: 85px !important;
+  }
+}
+
+/* ============================================
+   Collapsed sidebar: vertical tabs overrides
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):has(sidebar-main:not([expanded]) #tabbrowser-tabs) {
+
+  /* Tab groups: edge-to-edge like horizontal tabs */
+  tab-group {
+    margin-inline: 0 !important;
+    border-radius: 0 !important;
+    outline: none !important;
+    border-inline: none !important;
+    border-block: 1px solid color-mix(in srgb, var(--tab-group-color) 15%, transparent) !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  /* Group label: center the single-letter text, nudge down slightly */
+  .tab-group-label {
+    text-align: center !important;
+    padding-inline: 0 !important;
+    padding-top: 3px !important;
+  }
+}

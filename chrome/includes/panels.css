@@ -1,0 +1,62 @@
+/* ============================================
+   Shared liquid panel mixin (outline pseudo-element)
+   ============================================ */
+.browserContainer::after,
+.sidebar-browser-stack::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  border: 1px solid transparent !important;
+  background: var(--liquid-specular) border-box !important;
+  mask:
+    linear-gradient(#fff 0 0) padding-box,
+    linear-gradient(#fff 0 0) !important;
+  mask-composite: subtract !important;
+  pointer-events: none !important;
+  z-index: 2147483647 !important;
+}
+
+/* --- Dark mode: subtler outline + brighter backdrop --- */
+@media (prefers-color-scheme: dark) {
+  .browserContainer::after,
+  .sidebar-browser-stack::after {
+    background: var(--liquid-specular-dark) border-box !important;
+  }
+
+  :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen])::before {
+    background:
+      linear-gradient(
+        rgba(255, 255, 255, var(--liquid-dark-overlay-alpha)),
+        rgba(255, 255, 255, var(--liquid-dark-overlay-alpha))
+      ),
+      linear-gradient(rgba(8, 12, 18, 0.12), rgba(8, 12, 18, 0.12)),
+      var(--liquid-window-tint) !important;
+  }
+
+}
+
+/* ============================================
+   Find bar: glass treatment
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) .browserContainer > findbar {
+  background: light-dark(rgba(255, 255, 255, 0.55), rgba(18, 18, 20, 0.7)) !important;
+  backdrop-filter: blur(20px) saturate(1.2) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) !important;
+  border: none !important;
+  border-top: 0.5px solid light-dark(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.08)) !important;
+}
+
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) .browserContainer > findbar .findbar-textbox {
+  border-radius: var(--liquid-radius-small) !important;
+  background-color: light-dark(rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.06)) !important;
+}
+
+/* ============================================
+   Scrollbar: thin + transparent in sidebar
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) sidebar-main,
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) #sidebar {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(128, 128, 128, 0.3) transparent !important;
+}

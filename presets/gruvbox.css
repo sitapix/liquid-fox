@@ -1,0 +1,22 @@
+/*
+ * Liquid Fox — Gruvbox Preset
+ * https://github.com/morhetz/gruvbox
+ *
+ * Copy this file to your Firefox profile's chrome/ directory
+ * and rename it to userChrome-overrides.css
+ */
+
+:root {
+  --liquid-saturation: 1.25;
+  --liquid-dark-overlay-alpha: 0.03;
+  --liquid-dark-sidebar-alpha: 0.85;
+
+  --liquid-window-tint:
+    linear-gradient(
+      176deg,
+      rgba(251, 73, 52, 0) 0%,          /* red */
+      rgba(184, 187, 38, 0.05) 30%,     /* green */
+      rgba(131, 165, 152, 0.09) 60%,    /* aqua */
+      rgba(250, 189, 47, 0.14) 100%     /* yellow */
+    );
+}

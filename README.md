@@ -1,19 +1,22 @@
 # Liquid Fox
 
-A transparent Firefox theme for macOS with vibrancy blur, rounded panels, nicer tab groups and a subtle gradient tint. Supports both vertical and horizontal tab layouts.
+A transparent Firefox theme for macOS. Vibrancy blur, rounded panels, specular glass outlines, gradient tint, and custom tab group styling. Supports both vertical and horizontal tab layouts.
 
-<!-- Add a screenshot: place it in the repo and update the path -->
-![Liquid Fox screenshot](screenshot.png)
+![Liquid Fox](pic.png)
 
 ## Features
 
-- macOS vibrancy/blur behind the entire browser chrome
-- Subtle gradient tint overlay
-- Rounded content panels with soft shadows and gradient outlines
-- Dia-inspired tab group styling (vertical and horizontal)
-- Collapsed sidebar overrides for vertical tabs
-- Sidebar icon strip styling with background for horizontal tabs
-- Dark mode adjustments (stronger group tints, brighter backdrop)
+- **macOS vibrancy blur** behind the entire browser chrome
+- **Rounded content panels** with soft shadows and directional specular outlines
+- **Gradient tint overlay** across the window backdrop
+- **Tab group styling** for both vertical (sidebar) and horizontal layouts
+- **Dark mode** with stronger group tints, brighter backdrop, and adjusted specular
+- **Collapsed sidebar** overrides for vertical tabs
+- **Split view** styling for horizontal tabs
+- **Animations** with `prefers-reduced-motion` fallback
+- **Optional features** gated behind `about:config` prefs:
+  - Auto-hide bookmarks bar
+  - Show tab close button on hover only
 
 ## Requirements
 
@@ -22,34 +25,87 @@ A transparent Firefox theme for macOS with vibrancy blur, rounded panels, nicer 
 
 ## Install
 
-### Quick (script)
+### One-line install
 
 ```bash
+curl -sL https://raw.githubusercontent.com/sitapix/liquid-fox/main/install-remote.sh | bash
+```
+
+### Local install
+
+```bash
+git clone https://github.com/sitapix/liquid-fox.git
+cd liquid-fox
 ./install.sh
 ```
 
-The script lets you pick a Firefox profile and copies `chrome/userChrome.css` into it.
+The script copies the theme into your selected Firefox profile and sets the required `about:config` preferences automatically.
 
-### Manual
+### Manual install
 
 1. Open `about:profiles` in Firefox and find your active profile directory
-2. Create a `chrome/` folder inside it (if it doesn't exist)
-3. Copy `chrome/userChrome.css` into that folder
+2. Copy the entire `chrome/` folder into it
+3. Set these in `about:config`:
 
-### Enable in about:config
+| Preference | Value |
+|------------|-------|
+| `toolkit.legacyUserProfileCustomizations.stylesheets` | `true` |
+| `widget.macos.titlebar-blend-mode.behind-window` | `true` |
 
-Open `about:config` in Firefox and set both of these to `true`:
+4. Restart Firefox
 
-```
-toolkit.legacyUserProfileCustomizations.stylesheets
-widget.macos.titlebar-blend-mode.behind-window
-```
+## Customization
 
-Then restart Firefox.
+Don't edit the theme files directly. Instead, create a `userChrome-overrides.css` file in your profile's `chrome/` directory (see `userChrome-overrides-example.css` for all available variables).
+
+### Presets
+
+Ready-made color schemes are available in `presets/`. Copy one to your profile's `chrome/` directory and rename it to `userChrome-overrides.css`:
+
+| Preset | Description |
+|--------|-------------|
+| `default.css` | Default Liquid Fox tint |
+| `catppuccin-mocha.css` | Catppuccin Mocha |
+| `catppuccin-latte.css` | Catppuccin Latte |
+| `nord.css` | Nord |
+| `rose-pine.css` | Rose Pine |
+| `gruvbox.css` | Gruvbox |
+| `monochrome.css` | Monochrome |
+
+### Variables
+
+Key `--liquid-*` custom properties you can override:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `--liquid-radius` | `17px` | Content panel corner radius |
+| `--liquid-radius-small` | `8px` | Tabs, buttons, tab groups radius |
+| `--liquid-padding` | `8px` | Padding around content panels |
+| `--liquid-saturation` | `1.3` | Vibrancy saturation boost (1.0 = off) |
+| `--liquid-sidebar-border` | `transparent` | Sidebar border color |
+| `--liquid-toolbar-sidebar-offset` | `48.5px` | Toolbar push when sidebar is open |
+| `--liquid-sidebar-max-width` | `40vw` | Maximum sidebar width |
+| `--liquid-dark-overlay-alpha` | `0.03` | Dark mode white wash intensity |
+| `--liquid-dark-sidebar-alpha` | `0.82` | Dark mode sidebar opacity |
+| `--liquid-window-tint` | *(gradient)* | Window tint gradient (`none` to disable) |
+| `--liquid-transition-speed` | `0.2s` | Sidebar animation speed (keep at 0.2s) |
+
+## Optional Features
+
+Enable in `about:config`, then restart Firefox:
+
+| Preference | Effect |
+|------------|--------|
+| `liquidFox.autohide.bookmarkbar` | Auto-hide the bookmarks toolbar |
+| `liquidFox.tab.close_button_at_hover` | Show tab close button only on hover |
 
 ## Uninstall
 
-Delete the `chrome/userChrome.css` file from your Firefox profile directory and restart Firefox. You can find your profile directory by visiting `about:profiles`.
+```bash
+./uninstall.sh
+```
+
+Removes the theme files and Liquid Fox preferences from your selected Firefox profile.
 
 ## License
 

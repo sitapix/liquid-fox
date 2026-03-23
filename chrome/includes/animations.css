@@ -1,0 +1,78 @@
+/* ============================================
+   Tab press: satisfying scale on click
+   Guarded with :not([movingtab]) so transitions
+   don't fight drag reordering.
+   ============================================ */
+#tabbrowser-tabs:not([movingtab]) .tabbrowser-tab:active:not(:has(.tab-close-button:active)) {
+  transform: scale(0.98) !important;
+  transition: transform 0.1s ease !important;
+}
+
+#tabbrowser-tabs:not([movingtab]) .tabbrowser-tab {
+  transition: transform 0.1s ease !important;
+}
+
+/* ============================================
+   URL bar focus ring: shrink-in glow animation
+   ============================================ */
+#urlbar[focused]:not([open]) {
+  outline-style: solid !important;
+  outline-color: oklch(42.4% 0.199 265.638) !important;
+  outline-width: 3px !important;
+  outline-offset: -1px !important;
+  border-radius: 50px !important;
+  animation: urlbar-focus-ring 0.3s cubic-bezier(.8, 0, 0, .8) !important;
+}
+
+@keyframes urlbar-focus-ring {
+  from {
+    outline-width: 14px;
+    outline-color: transparent;
+  }
+  to {
+    outline-width: 3px;
+    outline-color: oklch(42.4% 0.199 265.638);
+  }
+}
+
+/* ============================================
+   Window inactive: dim tabs + urlbar content
+   ============================================ */
+:root:-moz-window-inactive:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) {
+  & .tabbrowser-tab:not([selected]) {
+    opacity: 0.5 !important;
+  }
+
+  & #urlbar:not([focused]) .urlbar-input-container {
+    opacity: 0.78 !important;
+  }
+}
+
+/* ============================================
+   Panel / popup open animation
+   ============================================ */
+menupopup,
+panel[type="arrow"] {
+  animation: panel-grow 0.2s ease !important;
+}
+
+@keyframes panel-grow {
+  from { transform: scale(0.94); opacity: 0.5; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ============================================
+   Reduced motion: collapse all transitions
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --liquid-transition-speed: 0.01ms !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

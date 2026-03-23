@@ -1,3 +1,4 @@
 .claude/
 .DS_Store
 firefox-dom-tree.md
+chrome/userChrome-overrides.css

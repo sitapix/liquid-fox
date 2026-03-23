@@ -1,0 +1,22 @@
+/*
+ * Liquid Fox — Nord Preset
+ * https://www.nordtheme.com
+ *
+ * Copy this file to your Firefox profile's chrome/ directory
+ * and rename it to userChrome-overrides.css
+ */
+
+:root {
+  --liquid-saturation: 1.15;
+  --liquid-dark-overlay-alpha: 0.04;
+  --liquid-dark-sidebar-alpha: 0.85;
+
+  --liquid-window-tint:
+    linear-gradient(
+      176deg,
+      rgba(94, 129, 172, 0) 0%,         /* nord10 - frost blue */
+      rgba(129, 161, 193, 0.06) 30%,    /* nord9 */
+      rgba(136, 192, 208, 0.10) 60%,    /* nord8 - frost cyan */
+      rgba(143, 188, 187, 0.14) 100%    /* nord7 - frost teal */
+    );
+}

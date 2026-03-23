@@ -64,4 +64,24 @@ add_pref "widget.macos.titlebar-blend-mode.behind-window" \
 
 echo
 echo "Done! Preferences have been set automatically."
-echo "Restart Firefox to activate Liquid Fox."
+
+# --- Restart / launch Firefox ---
+if pgrep -xq "firefox" 2>/dev/null; then
+  read -rp "Firefox is running. Quit and reopen? [y/N]: " RESTART
+  if [[ "$RESTART" =~ ^[Yy]$ ]]; then
+    echo "Quitting Firefox..."
+    osascript -e 'quit app "Firefox"' 2>/dev/null
+    for i in {1..20}; do
+      pgrep -xq "firefox" || break
+      sleep 0.5
+    done
+    sleep 0.5
+    echo "Opening Firefox..."
+    open -a Firefox
+  else
+    echo "Restart Firefox to activate Liquid Fox."
+  fi
+else
+  echo "Opening Firefox..."
+  open -a Firefox
+fi

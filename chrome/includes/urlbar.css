@@ -1,0 +1,81 @@
+/* ============================================
+   Nav bar: frosted dark strip over vibrancy (horizontal tabs only)
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)) #nav-bar,
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)) #PersonalToolbar {
+  background: light-dark(rgba(255, 255, 255, 0.45), rgba(18, 18, 20, 0.75)) !important;
+}
+
+/* ============================================
+   Pill-shaped URL bar (scoped to urlbar only)
+   ============================================ */
+#urlbar-container {
+  --toolbarbutton-border-radius: 50px !important;
+  --urlbar-inner-border-radius: 48px !important;
+  --urlbar-icon-border-radius: 48px !important;
+}
+
+
+/* --- Search mode switcher: bare icon, no background circle --- */
+/* Firefox 131+: searchmode-switcher element */
+#urlbar-searchmode-switcher {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin-inline-start: 8px !important;
+  margin-block: auto !important;
+  min-width: unset !important;
+}
+
+#urlbar-searchmode-switcher .searchmode-switcher-dropmarker {
+  display: none !important;
+}
+
+/* --- Extra breathing room inside the pill edges --- */
+#page-action-buttons {
+  margin-inline-end: 4px !important;
+}
+
+/* --- Urlbar dropdown: dark bg, shadow, no separator --- */
+#urlbar[open] {
+  --toolbarbutton-border-radius: var(--liquid-radius) !important;
+  --urlbar-separator-color: transparent !important;
+  outline: none !important;
+}
+
+#urlbar[open] > .urlbar-background {
+  box-shadow: var(--liquid-shadow-float) !important;
+  background-color: light-dark(rgb(240, 240, 240), rgb(18, 18, 20)) !important;
+  border: none !important;
+}
+
+#urlbar[open] .urlbar-input-container,
+#urlbar[open] .urlbarView,
+#urlbar[open] .urlbarView-body-outer,
+#urlbar[open] .urlbarView-body-inner,
+#urlbar[open] .urlbarView-results {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#urlbar[open] .urlbarView-body-outer::before {
+  display: none !important;
+}
+
+/* ============================================
+   Focused URL bar: glass glow on input
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) #urlbar[focused] .urlbar-background {
+  box-shadow:
+    0 0 0 1px oklch(42.4% 0.199 265.638 / 0.3),
+    0 0 16px 0px oklch(42.4% 0.199 265.638 / 0.4) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) #urlbar[focused] .urlbar-background {
+    box-shadow:
+      0 0 0 1px oklch(42.4% 0.199 265.638 / 0.4),
+      0 0 20px 0px oklch(42.4% 0.199 265.638 / 0.5) !important;
+  }
+}

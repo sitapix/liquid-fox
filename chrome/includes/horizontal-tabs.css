@@ -1,0 +1,308 @@
+/* ============================================
+   Horizontal tabs layout: rounded box + padding
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)) {
+
+  /* --- Kill chrome-content separator lines + tighten vertical spacing --- */
+  #navigator-toolbox {
+    border: none !important;
+    padding-bottom: 0 !important;
+    --tabs-navbar-shadow-size: 0px !important;
+  }
+
+  /* --- Compact tab bar: pill-shaped transparent tabs --- */
+  #TabsToolbar {
+    --tab-min-height: 21px !important;
+    padding-block: 1px !important;
+  }
+
+  .tabbrowser-tab {
+    --tab-border-radius: 50px !important;
+    font-size: 12px !important;
+  }
+
+  /* Fix tab bar shift when dragging tabs */
+  #navigator-toolbox[movingtab] > #TabsToolbar,
+  #navigator-toolbox[movingtab] > #titlebar > #TabsToolbar {
+    padding-bottom: 0 !important;
+  }
+
+  #navigator-toolbox[movingtab] #tabbrowser-tabs {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  #TabsToolbar[movingtab] + #nav-bar {
+    margin-top: 0 !important;
+  }
+
+  .tab-background {
+    border-radius: 50px !important;
+    background: transparent !important;
+  }
+
+  /* Extra padding so close button doesn't hug the pill edge */
+  .tab-content {
+    padding-inline: 10px !important;
+  }
+
+  /* Selected tab: frosted glass pill with specular border */
+  .tab-background:is([selected], [multiselected]) {
+    background: light-dark(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08)) !important;
+    border: 1px solid transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background-clip: padding-box !important;
+    position: relative !important;
+    --tab-selected-outline-color: transparent !important;
+  }
+
+  .tab-background:is([selected], [multiselected])::after {
+    content: "" !important;
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: inherit !important;
+    border: 1px solid transparent !important;
+    background: var(--liquid-specular-dark) border-box !important;
+    mask:
+      linear-gradient(#fff 0 0) padding-box,
+      linear-gradient(#fff 0 0) !important;
+    mask-composite: subtract !important;
+    pointer-events: none !important;
+  }
+
+  /* Hovered tab: subtle fill */
+  .tabbrowser-tab:not([selected]):hover .tab-background {
+    background: light-dark(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)) !important;
+  }
+
+  --tabs-navbar-separator-color: transparent !important;
+  --chrome-content-separator-color: transparent !important;
+  --tabstrip-inner-border: transparent !important;
+
+  /* --- Compact toolbar buttons + URL bar height --- */
+  --urlbar-height: 28px !important;
+  --toolbarbutton-inner-padding: 4px !important;
+
+  /* --- Tighten gap between traffic lights and first tab --- */
+  .titlebar-spacer[type="pre-tabs"] {
+    width: 8px !important;
+  }
+
+  /* --- Inactive pinned tabs: subtle background + visible hover --- */
+  .tabbrowser-tab[pinned]:not([selected]):not([multiselected]) .tab-background {
+    background-color: rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .tabbrowser-tab[pinned]:not([selected]):not([multiselected]):hover .tab-background {
+    background-color: rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* --- Gap after last pinned tab before regular tabs --- */
+  .tabbrowser-tab[pinned] + .tabbrowser-tab:not([pinned]),
+  .tabbrowser-tab[pinned] + tab-group {
+    margin-inline-start: 6px !important;
+  }
+
+  /* --- Firefox 136+: prevent tab width jumping when sound icon appears --- */
+  .tabbrowser-tab:is([soundplaying], [muted], [activemedia-blocked]):not([pinned]) {
+    --tab-min-width: inherit !important;
+  }
+
+  /* --- Bookmarks bar: compact + side margins + smooth sidebar push --- */
+  #PersonalToolbar {
+    margin-inline: calc(var(--liquid-padding) - 0.25px) !important;
+    padding-block: 1px !important;
+    transition: margin-inline-start var(--liquid-transition-speed) ease-in-out !important;
+  }
+
+  /* --- Window bottom padding (same trick as vertical tabs) --- */
+  #browser {
+    padding-bottom: var(--liquid-bottom-inset) !important;
+  }
+
+  /* --- Sidebar icon strip: layout + background --- */
+  sidebar-main {
+    margin-inline-start: 0 !important;
+    margin-bottom: calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    --sidebar-border-color: var(--liquid-sidebar-border) !important;
+  }
+
+  /* --- Sidebar panels (bookmarks, history, etc.): flush, no frills --- */
+  #sidebar-box {
+    margin: 0 0 calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) 0 !important;
+    padding: 0 !important;
+    max-width: var(--liquid-sidebar-max-width) !important;
+    --sidebar-border-color: var(--liquid-sidebar-border) !important;
+  }
+
+  #sidebar-box,
+  #sidebar-box > *,
+  .sidebar-browser-stack,
+  #sidebar {
+    border-radius: 0 !important;
+  }
+
+  .sidebar-browser-stack {
+    margin: 0 !important;
+  }
+
+  /* Style splitter handles to blend with sidebar */
+  #sidebar-splitter,
+  #sidebar-launcher-splitter {
+    border: none !important;
+    width: 4px !important;
+    min-width: 4px !important;
+    background: transparent !important;
+    margin-bottom: calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) !important;
+  }
+
+  /* Restore blue resize highlight on hover/drag */
+  #sidebar-splitter:hover,
+  #sidebar-launcher-splitter:hover {
+    background: var(--focus-outline-color) !important;
+  }
+
+  /* --- Address bar: rounded top corners + side margin --- */
+  #nav-bar {
+    margin: 0 calc(var(--liquid-padding) - 0.25px) !important;
+    padding-block: 1px !important;
+    border-radius: var(--liquid-radius) var(--liquid-radius) 0 0 !important;
+    overflow: hidden !important;
+    transition: margin-inline-start var(--liquid-transition-speed) ease-in-out !important;
+    --tabs-navbar-shadow-size: 0px !important;
+  }
+
+  /* --- Content area: rounded bottom corners + side/bottom margin + shadow --- */
+  .browserContainer {
+    position: relative !important;
+    margin: 0 var(--liquid-padding) calc(var(--liquid-bottom-gap) - var(--liquid-bottom-inset)) var(--liquid-padding) !important;
+    border-radius: 0 0 var(--liquid-radius) var(--liquid-radius) !important;
+    overflow: hidden !important;
+    box-shadow: var(--liquid-shadow) !important;
+    transition: margin-left var(--liquid-transition-speed) ease-in-out, border-radius var(--liquid-transition-speed) ease-in-out !important;
+  }
+
+  /* Hide the shared outline (top edge creates a visible line across the padding) */
+  .browserContainer::after {
+    display: none !important;
+  }
+
+  /* --- Tab groups: Dia-inspired style --- */
+
+  /* Group container: horizontal row, no rounding */
+  tab-group {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    background-color: color-mix(in srgb, var(--tab-group-color) 10%, transparent) !important;
+    border-radius: 0 !important;
+    border-block: none !important;
+    border-inline: 1px solid color-mix(in srgb, var(--tab-group-color) 15%, transparent) !important;
+    padding: 0 !important;
+    margin: 0 2px !important;
+    --tab-group-line-color: transparent !important;
+    --tab-group-line-thickness: 0px !important;
+  }
+
+  /* Label */
+  .tab-group-label {
+    background-color: transparent !important;
+    color: light-dark(
+      var(--tab-group-color),
+      var(--tab-group-color-invert)
+    ) !important;
+    border: none !important;
+    font-weight: normal !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding-inline: 8px !important;
+  }
+
+  /* Overflow count (+1, +2) */
+  .tab-group-overflow-count {
+    color: light-dark(
+      var(--tab-group-color),
+      var(--tab-group-color-invert)
+    ) !important;
+    padding-inline: 6px !important;
+  }
+
+  /* Hover highlight */
+  .tab-group-label-hover-highlight {
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  tab-group[collapsed]:not([movingtabgroup]) .tab-group-label-hover-highlight:hover {
+    background: rgba(0, 0, 0, 0.06) !important;
+  }
+
+  /* --- Dark mode: stronger group tint --- */
+  @media (prefers-color-scheme: dark) {
+    tab-group {
+      background-color: color-mix(in srgb, var(--tab-group-color) 20%, transparent) !important;
+      border-inline-color: color-mix(in srgb, var(--tab-group-color) 25%, transparent) !important;
+    }
+  }
+}
+
+/* ============================================
+   Horizontal tabs + sidebar visible: flush web frame
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)):has(#sidebar-main:not([hidden])) .browserContainer {
+  margin-left: 0 !important;
+}
+
+/* --- Toolbars: push right to align with sidebar edge --- */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)):has(#sidebar-main:not([hidden])) #nav-bar {
+  margin-inline-start: var(--liquid-toolbar-sidebar-offset) !important;
+}
+
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)):has(#sidebar-main:not([hidden])) #PersonalToolbar {
+  margin-inline-start: var(--liquid-toolbar-sidebar-offset) !important;
+}
+
+/* ============================================
+   Split View: fix spacing, borders, and outlines
+   Firefox 131+: splitview attribute + split-view-* elements
+   ============================================ */
+#tabbrowser-tabpanels[splitview] {
+
+  /* --- Remove all outlines, flatten inactive pane shadow --- */
+  .browserContainer {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* --- Tighter spacing between split panes --- */
+  .split-view-panel.split-view-panel-active {
+    margin: 1px !important;
+  }
+
+  /* --- Active pane: elevated shadow for emphasis --- */
+  .deck-selected > .browserContainer {
+    box-shadow: var(--liquid-shadow-float) !important;
+  }
+}
+
+/* --- Split view splitter: thin + blue on hover, like sidebar --- */
+.split-view-splitter {
+  width: 4px !important;
+  min-width: 4px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.split-view-splitter:hover {
+  background: var(--focus-outline-color) !important;
+}
+
+/* --- Split view tab entry: subtle divider between tab names --- */
+/* Firefox 131+: tab-split-view-wrapper custom element */
+tab-split-view-wrapper:not([hasactivetab]) .tabbrowser-tab:last-child {
+  border-inline-start: 1px solid light-dark(rgba(0, 0, 0, 0.12), rgba(255, 255, 255, 0.12)) !important;
+}

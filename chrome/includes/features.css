@@ -1,0 +1,43 @@
+/* ============================================
+   Optional Features (pref-gated)
+   Toggle in about:config. Requires Firefox restart.
+   ============================================ */
+
+/* --- Autohide bookmarks bar (horizontal tabs only) ---
+   Pref: liquidFox.autohide.bookmarkbar
+   Bookmarks bar slides down on navigator-toolbox hover. */
+@media (-moz-bool-pref: "liquidFox.autohide.bookmarkbar") {
+  :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)) #PersonalToolbar {
+    max-height: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    padding-block: 0 !important;
+    transition:
+      max-height var(--liquid-transition-speed) ease-in-out,
+      opacity var(--liquid-transition-speed) ease-in-out,
+      padding-block var(--liquid-transition-speed) ease-in-out !important;
+  }
+
+  :root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]):not(:has(sidebar-main #tabbrowser-tabs)) #navigator-toolbox:hover #PersonalToolbar {
+    max-height: 40px !important;
+    opacity: 1 !important;
+    padding-block: 1px !important;
+  }
+}
+
+/* --- Tab close button on hover only ---
+   Pref: liquidFox.tab.close_button_at_hover
+   Close button hidden until tab is hovered or selected. */
+@media (-moz-bool-pref: "liquidFox.tab.close_button_at_hover") {
+  .tab-close-button {
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition: opacity 0.15s ease !important;
+  }
+
+  .tabbrowser-tab:hover .tab-close-button,
+  .tabbrowser-tab:is([selected], [multiselected]) .tab-close-button {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+}

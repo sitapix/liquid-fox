@@ -1,0 +1,22 @@
+/*
+ * Liquid Fox — Catppuccin Mocha Preset
+ * https://github.com/catppuccin/catppuccin
+ *
+ * Copy this file to your Firefox profile's chrome/ directory
+ * and rename it to userChrome-overrides.css
+ */
+
+:root {
+  --liquid-saturation: 1.1;
+  --liquid-dark-overlay-alpha: 0.02;
+  --liquid-dark-sidebar-alpha: 0.9;
+
+  --liquid-window-tint:
+    linear-gradient(
+      176deg,
+      rgba(203, 166, 247, 0) 0%,       /* mauve */
+      rgba(137, 180, 250, 0.06) 30%,    /* blue */
+      rgba(116, 199, 236, 0.10) 60%,    /* sapphire */
+      rgba(245, 224, 220, 0.14) 100%    /* rosewater */
+    );
+}

@@ -1,0 +1,14 @@
+/*
+ * Liquid Fox — Monochrome Preset
+ * Clean, no color tint — pure glass.
+ *
+ * Copy this file to your Firefox profile's chrome/ directory
+ * and rename it to userChrome-overrides.css
+ */
+
+:root {
+  --liquid-saturation: 1.0;
+  --liquid-dark-overlay-alpha: 0.02;
+  --liquid-dark-sidebar-alpha: 0.85;
+  --liquid-window-tint: none;
+}

@@ -1,0 +1,74 @@
+/* ============================================
+   Window Transparency
+   Activates macOS vibrancy / behind-window blur
+   ============================================ */
+:root {
+  appearance: -moz-sidebar !important;
+}
+
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]),
+#main-window {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* ============================================
+   Squircle corners (superellipse)
+   ============================================ */
+@supports (corner-shape: squircle) {
+  * {
+    corner-shape: squircle !important;
+  }
+}
+
+/* ============================================
+   Browser Chrome - Make UI panels transparent
+   ============================================ */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) {
+
+  /* --- Subtle gradient tint over vibrancy --- */
+  &::before {
+    content: "" !important;
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: var(--liquid-window-tint) !important;
+    backdrop-filter: saturate(var(--liquid-saturation)) !important;
+    -webkit-backdrop-filter: saturate(var(--liquid-saturation)) !important;
+    pointer-events: none !important;
+    z-index: -1 !important;
+    transition: opacity 0.4s ease, backdrop-filter 0.4s ease !important;
+  }
+
+  /* --- Clear all backgrounds so vibrancy is uniform --- */
+  body,
+  #navigator-toolbox,
+  #browser,
+  #sidebar-main,
+  #tabbrowser-tabbox,
+  #tabbrowser-tabpanels,
+  #browser-panel,
+  #browsing-context-stack {
+    background: transparent !important;
+  }
+
+  /* --- Expand-on-hover sidebar: restore overlay background --- */
+  /* Firefox 131+: sidebar-expand-on-hover attr + sidebar-launcher-expanded attr */
+  &[sidebar-expand-on-hover] #sidebar-main[sidebar-launcher-expanded] {
+    background: light-dark(
+      rgba(232, 232, 232, 0.97),
+      rgba(24, 24, 28, var(--liquid-dark-sidebar-alpha))
+    ) !important;
+    box-shadow: 4px 0 16px rgba(0, 0, 0, 0.08) !important;
+  }
+
+}
+
+/* ============================================
+   Window inactive: dim the glass when unfocused
+   ============================================ */
+:root:-moz-window-inactive:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen])::before {
+  opacity: 0.5 !important;
+  backdrop-filter: saturate(1.0) !important;
+  -webkit-backdrop-filter: saturate(1.0) !important;
+}

@@ -1,0 +1,22 @@
+/*
+ * Liquid Fox — Rose Pine Preset
+ * https://rosepinetheme.com
+ *
+ * Copy this file to your Firefox profile's chrome/ directory
+ * and rename it to userChrome-overrides.css
+ */
+
+:root {
+  --liquid-saturation: 1.2;
+  --liquid-dark-overlay-alpha: 0.03;
+  --liquid-dark-sidebar-alpha: 0.88;
+
+  --liquid-window-tint:
+    linear-gradient(
+      176deg,
+      rgba(196, 167, 231, 0) 0%,        /* iris */
+      rgba(156, 207, 216, 0.06) 30%,    /* foam */
+      rgba(235, 188, 186, 0.10) 60%,    /* rose */
+      rgba(246, 193, 119, 0.14) 100%    /* gold */
+    );
+}

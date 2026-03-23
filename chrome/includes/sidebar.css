@@ -1,0 +1,13 @@
+/* ============================================
+   Sidebar button styling (shared across all layouts)
+   ============================================ */
+/* Firefox 131+: sidebar-main custom element (DOM structure changes frequently) */
+:root:not([windowtype="Toolkit:PictureInPicture"], [inDOMFullscreen]) sidebar-main {
+  --toolbarbutton-active-background: transparent !important;
+  --button-background-color: transparent !important;
+  --button-background-color-hover: rgba(0, 0, 0, 0.12) !important;
+  --button-background-color-active: rgba(0, 0, 0, 0.18) !important;
+  --button-background-color-ghost-hover: rgba(0, 0, 0, 0.12) !important;
+  --button-background-color-ghost-active: rgba(0, 0, 0, 0.18) !important;
+  --button-border-radius: var(--liquid-radius-small) !important;
+}
