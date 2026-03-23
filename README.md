@@ -99,14 +99,6 @@ Enable in `about:config`, then restart Firefox:
 | `liquidFox.autohide.bookmarkbar` | Auto-hide the bookmarks toolbar |
 | `liquidFox.tab.close_button_at_hover` | Show tab close button only on hover |
 
-## Uninstall
-
-```bash
-./uninstall.sh
-```
-
-Removes the theme files and Liquid Fox preferences from your selected Firefox profile.
-
 ## License
 
 [MIT](LICENSE)
